@@ -37,7 +37,7 @@ async function run() {
         const result =await ProductCollection.insertOne(newProduct);
         res.send(result);
     })
-
+//post review data
     app.post('/review',async(req,res)=>{
       const newReview =req.body;
       console.log(newReview);
@@ -50,6 +50,16 @@ async function run() {
         const result =await cursor.toArray();
         res.send(result);
     })
+
+
+    //get review data
+
+    app.get('/review',async(req,res)=>{
+      const cursor = ReviewCollection.find();
+      const result =await cursor.toArray();
+      res.send(result);
+    })
+
 //delete method
     app.delete('/products/:id',async(req,res)=>{
       const id =req.params.id;
