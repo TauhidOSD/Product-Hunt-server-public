@@ -50,13 +50,33 @@ async function run() {
       res.send(result);
     })
 
-  // update method  
+    //
   app.get('/products/:id',async(req, res)=>{
     const id = req.params.id;
     const query = {_id: new ObjectId(id)}
     const result =await ProductCollection.findOne(query);
     res.send(result);
   })
+  //Update
+  app.put('/products/:id',async(req,res)=>{
+    const id = req.params.id;
+    const filter={_id: new ObjectId(id)};
+    const options={upsert: true};
+    const updatedProduct=req.body;
+    const Product = {
+      $set: {
+        P_name:updatedProduct.P_name,
+        Description:updatedProduct.Description,
+        P_URL:updatedProduct.P_URL,
+        ProductLink:updatedProduct.ProductLink
+      }
+    }
+    const result =await ProductCollection.updateOne(filter,Product,options);
+    res.send(result);
+
+  })
+
+
 
 
 
