@@ -28,6 +28,7 @@ async function run() {
     await client.connect();
 
     const ProductCollection = client.db("ProductHuntDb").collection("products");
+    const ReviewCollection = client.db("ProductHuntDb").collection("review");
 
     app.post('/products',async(req,res)=>{
 
@@ -35,6 +36,13 @@ async function run() {
         console.log(newProduct);
         const result =await ProductCollection.insertOne(newProduct);
         res.send(result);
+    })
+
+    app.post('/review',async(req,res)=>{
+      const newReview =req.body;
+      console.log(newReview);
+      const result =await ReviewCollection.insertOne(newReview);
+      res.send(result);
     })
 
     app.get('/products',async(req,res)=>{
