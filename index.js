@@ -50,6 +50,13 @@ async function run() {
       res.send(result);
     })
 
+    //user email
+    app.get('/productsbyemail/:OwnerEmail',async(req,res)=>{
+      console.log(req.params.OwnerEmail);
+      const result = await ProductCollection.find({OwnerEmail:req.params.OwnerEmail}).toArray();
+      res.send(result)
+    })
+
     //
   app.get('/products/:id',async(req, res)=>{
     const id = req.params.id;
