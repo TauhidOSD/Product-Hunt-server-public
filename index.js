@@ -29,6 +29,16 @@ async function run() {
 
     const ProductCollection = client.db("ProductHuntDb").collection("products");
     const ReviewCollection = client.db("ProductHuntDb").collection("review");
+    const userCollection = client.db("ProductHuntDb").collection("users");
+
+    //user related Api
+    app.post('/users',async(req,res)=>{
+      const user =req.body;
+      const result = await userCollection.insertOne(user);
+      res.send(result);
+    })
+
+
 
     app.post('/products',async(req,res)=>{
 
