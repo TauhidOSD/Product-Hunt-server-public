@@ -94,6 +94,17 @@ const verifyToken =(req,res,next) =>{
       const result =await userCollection.updateOne(filter,updatedDoc)
       res.send(result);
     })
+    app.patch('/users/moderator/:id',async(req,res)=>{
+      const id =req.params.id;
+      const filter ={_id: new ObjectId(id)};
+      const updatedDoc ={
+        $set: {
+          role: 'moderator'
+        }
+      }
+      const result =await userCollection.updateOne(filter,updatedDoc)
+      res.send(result);
+    })
 
 
 
