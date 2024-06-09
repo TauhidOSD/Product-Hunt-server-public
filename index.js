@@ -6,8 +6,14 @@ require('dotenv').config()
 const port =process.env.PORT || 5000;
 
 
+
 //middleware
-app.use(cors());
+const corsOptions = {
+  origin: ['http://localhost:5173', 'http://localhost:5174'],
+  credentials: true,
+  optionSuccessStatus: 200,
+}
+app.use(cors(corsOptions))
 app.use(express.json());
 
 
@@ -26,7 +32,6 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
 
     const ProductCollection = client.db("ProductHuntDb").collection("products");
     const ReviewCollection = client.db("ProductHuntDb").collection("review");
@@ -94,6 +99,7 @@ const verifyToken =(req,res,next) =>{
       const result =await userCollection.updateOne(filter,updatedDoc)
       res.send(result);
     })
+    
     app.patch('/users/moderator/:id',async(req,res)=>{
       const id =req.params.id;
       const filter ={_id: new ObjectId(id)};
@@ -129,7 +135,15 @@ const verifyToken =(req,res,next) =>{
         res.send(result);
     })
 
-
+    app.get('/products/:id',async(req,res)=>{
+      const id =req.params.id;
+      console.log(id)
+      const query = {_id: new ObjectId(id)}
+      const result = await ProductCollection.findOne(query);
+      
+       
+      res.send(result);
+  })
     //get review data
 
     app.get('/review',async(req,res)=>{
@@ -154,12 +168,13 @@ const verifyToken =(req,res,next) =>{
     })
 
     //
-  app.get('/products/:id',async(req, res)=>{
-    const id = req.params.id;
-    const query = {_id: new ObjectId(id)}
-    const result =await ProductCollection.findOne(query);
-    res.send(result);
-  })
+  // app.get('/products/:id',async(req, res)=>{
+  //   const id = req.params.id;
+  //   console.log(id);
+  //   const query = {_id: new ObjectId(id)}
+  //   const result =await ProductCollection.findOne(query);
+  //   res.send(result);
+  // })
   //Update
   app.put('/products/:id',async(req,res)=>{
     const id = req.params.id;
