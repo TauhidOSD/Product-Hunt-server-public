@@ -9,7 +9,7 @@ const port =process.env.PORT || 5000;
 
 //middleware
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://localhost:5174'],
+  origin: ['http://localhost:5173', 'http://localhost:5174','https://radiant-vacherin-b7cfe0.netlify.app'],
   credentials: true,
   optionSuccessStatus: 200,
 }
@@ -168,13 +168,7 @@ const verifyToken =(req,res,next) =>{
     })
 
     //
-  // app.get('/products/:id',async(req, res)=>{
-  //   const id = req.params.id;
-  //   console.log(id);
-  //   const query = {_id: new ObjectId(id)}
-  //   const result =await ProductCollection.findOne(query);
-  //   res.send(result);
-  // })
+  
   //Update
   app.put('/products/:id',async(req,res)=>{
     const id = req.params.id;
